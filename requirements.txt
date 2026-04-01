@@ -2,6 +2,7 @@
 # Basic dependencies
 pandas==2.3.3
 python-dotenv==1.2.1
+matplotlib
 
 # langchain / langraph / deepagents
 deepagents 

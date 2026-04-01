@@ -50,7 +50,6 @@ class DataframeAgent(BaseAgent):
                 print(f"無法找到 json object, Origin Content: {text}")
                 return {}
 
-    # Define a free, local Python execution tool
     @tool
     def execute_python(code: str):
         """
@@ -81,7 +80,7 @@ class DataframeAgent(BaseAgent):
                 question = plan.get("question")
                 dataset_path = plan.get("dataset_path")
 
-                prompt = get_dataframe_agent_prompt()
+                prompt = get_dataframe_agent_prompt(data_dir=self.DATA_DIR)
 
                 dataframe_agent = create_deep_agent(
                     backend=self.dataframeAgent_backend_config,

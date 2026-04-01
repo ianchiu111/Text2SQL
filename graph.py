@@ -1,4 +1,4 @@
-import os
+import os, json
 import time
 from typing import List, Dict, Any, TypedDict
 
@@ -36,6 +36,12 @@ class AgentState(TypedDict, total=False):
     #     {...}
     # ]
 
+def _stringify(self, obj: Any) -> str:
+    """Pretty-print dict / list, otherwise str()."""
+    if isinstance(obj, (dict, list)):
+        return json.dumps(obj, ensure_ascii=False, indent=2)
+    return str(obj)
+
 def run_agent(query: str) -> None:
     llm = LLMClient()
 
@@ -53,6 +59,7 @@ def run_agent(query: str) -> None:
 
     def _planning_router(state: AgentState):
         planning = state.get("planning")
+        print(f"Planning Agent's Planning: {json.dumps(planning, ensure_ascii=False, indent=2)}")
 
         for plan in planning:
 
@@ -79,7 +86,7 @@ def run_agent(query: str) -> None:
     graph.add_edge(START, "intent")
     graph.add_conditional_edges("intent", _intent_router, ["planning", "summary"])  
     graph.add_conditional_edges("planning", _planning_router, ["dataframe", "summary"]) 
-    graph.add_edge("dataframe", "summary")
+    graph.add_conditional_edges("dataframe", _planning_router, ["dataframe", "summary"]) 
     graph.add_edge("summary", END)
 
     agent_graph = graph.compile()
@@ -102,12 +109,10 @@ def run_agent(query: str) -> None:
 
 if __name__ == "__main__":
     start_time = time.time()
-    # result = run_agent("現在美金換成台幣的匯率是多少") 
-    # result = run_agent("我想知道股息、股東個別是什麼") 
     # result = run_agent("Use python to analyze how many alive males whose age is more than 20 in the titanic dataset.(/Users/yuchen/Visual_Studio_Code/DeepAgent_text2sql/data/titanic_dataset.csv)") 
-    result = run_agent("Analyze the count of surviving males over age 20 in the Titanic dataset.(/Users/yuchen/Visual_Studio_Code/DeepAgent_text2sql/data/titanic_dataset.csv)") 
-
-
+    # result = run_agent("Analyze the count of surviving males over age 20 in the Titanic dataset.(/Users/yuchen/Visual_Studio_Code/DeepAgent_text2sql/data/titanic_dataset.csv)") 
+    # result = run_agent("Clean the Titanic dataset to make sure there are no missing values and save it for me.(/Users/yuchen/Visual_Studio_Code/DeepAgent_text2sql/data/titanic_dataset.csv)") 
+    result = run_agent("Clean the Titanic dataset to make sure there are no missing values and visualize the age and distribution with picture results.(/Users/yuchen/Visual_Studio_Code/DeepAgent_text2sql/data/titanic_dataset.csv)") 
 
     response = result.get("response", "")
     

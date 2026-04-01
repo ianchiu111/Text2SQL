@@ -74,14 +74,28 @@ After you finish the planning, please output the response in the following JSON 
 """
     return PLANNING_PROMPT
 
-def get_dataframe_agent_prompt():
+def get_dataframe_agent_prompt(data_dir: str):
 
     DATAFRAME_AGENT_PROMPT = """
 You are a python execution assistant. 
-You have to review the question, target dataset, and then write Python code with `execute_python` tool to analyze the data and answer the question.
+You have to review the question, target dataset, and then write Python code with `execute_python` tool to answer the question.
 
-# Coding Guidelines:
-ALWAYS use print() to show your final answer in the code. 
+=========================================================================
+Working Directory:
+{data_dir}
+=========================================================================
+
+## Coding Guidelines:
+### CRITICAL RULES:
+- If the question aims to generate the file, please generate the file with python codes in the current working directory and return the file name in the answer.
+    - CSV file: should use pandas to generate and save the csv file, and the file name should end with .csv.
+    - Picture file: 
+        - should use matplotlib or seaborn to save the picture file end with .png or .jpg. 
+        - Please skip plt.show() to avoid blocking the code execution.
+        - Add matplotlib.use('Agg') to use a non-interactive backend at the very top of your script, before importing pyplot.
+### Tool Usage:
+- Because of the limitation of tool `execute_python`, you MUST use print() function in your generated python codes to show the final answers or everything you want to check after executing the code.
+- 
 """
 
     return DATAFRAME_AGENT_PROMPT
