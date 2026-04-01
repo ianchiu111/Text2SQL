@@ -24,7 +24,7 @@ Hello I'm YuChen. This project aims to solve the Text-to-SQL issue by Langgraph 
                     "question": "Analyze the count of surviving males over age 20 in the Titanic dataset.", 
                     "answer": "The count of surviving males over age 20 in the Titanic dataset is 64.", 
                     "dataset_path": "path to titanic_dataset.csv", 
-                    "finish": True
+                    "finish": true
                }
           ]
      }
