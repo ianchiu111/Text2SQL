@@ -1,0 +1,13 @@
+
+# Basic dependencies
+pandas==2.3.3
+python-dotenv==1.2.1
+
+# langchain / langraph / deepagents
+deepagents 
+langchain_openai==1.1.7
+langchain-community 
+
+langchain_experimental
+
+sqlalchemy
