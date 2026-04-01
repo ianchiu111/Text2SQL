@@ -110,7 +110,7 @@ Hello I'm YuChen. This project aims to solve the Text-to-SQL issue by Langgraph 
 
      整體來說，計劃已順利完成，數據集已清理並可視化。
      ```
-     <img src="data/titanic_age_distribution.png" alt="image" width="600"/>
+     <img src="images/titanic_age_distribution.png" alt="image" width="600"/>
 - Planning:
      ```json
      {
